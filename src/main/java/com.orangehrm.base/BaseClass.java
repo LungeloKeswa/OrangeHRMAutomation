@@ -68,7 +68,6 @@ public class BaseClass {
         // initialize the WebDriver based on browser defined in the config.properties file
         String browser = prop.getProperty("browser");
 
-
         // Implicit Wait - Global Wait
         int implicitWait = Integer.parseInt(prop.getProperty("implicitWait"));
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(implicitWait));
@@ -93,6 +92,22 @@ public class BaseClass {
                System.out.println("Failed to quit driver:"+e.getMessage());
            }
        }
+    }
+
+    // driver and getter method so we can use this method when ever we want
+    // basically use it outside the package
+    public WebDriver getDriver() {
+        return driver;
+    }
+
+    // Getter method for prop
+    public static Properties getProp() {
+        return prop;
+    }
+
+    // Driver setter method
+    public void setDriver(WebDriver driver) {
+        this.driver = driver;
     }
 
     // static wait fOr pause
