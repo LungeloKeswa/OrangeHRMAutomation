@@ -1,5 +1,6 @@
 package com.orangehrm.base;
 
+import com.orangehrm.actiondriver.ActionDriver;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.edge.EdgeDriver;
@@ -22,6 +23,7 @@ public class BaseClass {
     // not needed for the driver cause we are closing the driver
     protected static Properties prop;
     protected static WebDriver driver;
+    private static ActionDriver actionDriver;
 
     @BeforeSuite
     public void loadConfig() throws IOException {
@@ -40,6 +42,13 @@ public class BaseClass {
         configureBrowser();
         staticWait(2);
         System.out.println("Setting up WebDriver for: "+this.getClass().getSimpleName());
+
+        // Initialize the action driver
+        if(actionDriver == null){
+            actionDriver = new ActionDriver(driver);
+            System.out.println("ActionDriver Instance is created "+this.getClass().getSimpleName());
+        }
+
     }
 
     private void launchBrowser() {
@@ -92,11 +101,31 @@ public class BaseClass {
                System.out.println("Failed to quit driver:"+e.getMessage());
            }
        }
+       driver = null;
+       actionDriver = null;
+       System.out.println("WebDriver instance is closed");
     }
 
     // driver and getter method so we can use this method when ever we want
     // basically use it outside the package
-    public WebDriver getDriver() {
+    /*public WebDriver getDriver() {
+        return driver;
+    } */
+
+    // Driver setter method
+    /*public void setDriver(WebDriver driver) {
+        this.driver = driver;
+    }*/
+
+    // Getter Method for WebDriver
+    public static WebDriver getDriver() {
+
+        if (driver == null) {
+
+            System.out.println("WebDriver is not initialized");
+            throw new IllegalStateException("WebDriver is not initialized");
+        }
+
         return driver;
     }
 
@@ -105,9 +134,16 @@ public class BaseClass {
         return prop;
     }
 
-    // Driver setter method
-    public void setDriver(WebDriver driver) {
-        this.driver = driver;
+    // Getter Method for ActionDriver
+    public static ActionDriver getActionDriver() {
+
+        if (actionDriver == null) {
+
+            System.out.println("actionDriver is not initialized");
+            throw new IllegalStateException("actionDriver is not initialized");
+        }
+
+        return actionDriver;
     }
 
     // static wait fOr pause

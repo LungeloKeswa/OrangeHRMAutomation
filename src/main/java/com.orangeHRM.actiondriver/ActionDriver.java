@@ -21,6 +21,7 @@ public class ActionDriver {
         // object for wait first
         int explicitWait = Integer.parseInt(BaseClass.getProp().getProperty("explicitWait"));
         this.wait = new WebDriverWait(driver, Duration.ofSeconds(explicitWait));
+        System.out.println("WebDriver instance is created.");
     }
 
     // method to click an element
@@ -59,19 +60,22 @@ public class ActionDriver {
         }
     }
 
-    // Method to compare Two text
-    public void compareText(By by, String expectedText) {
+    // Method to compare Two text -- change the return type
+    public boolean compareText(By by, String expectedText) {
         try {
             waitForElementToBeVisible(by);
             String actualText = driver.findElement(by).getText();
             if(expectedText.equals(actualText)) {
                 System.out.println("The text is equal to the expected: "+actualText+ "equals" +expectedText);
+                return true;
             } else {
                 System.out.println("The text are not Matching: "+actualText+ "not equals" +expectedText);
+                return false;
             }
         } catch  (Exception e) {
             System.out.println("Unable to compare the text: "+e.getMessage());
         }
+        return false;
     }
 
     // Method to check if an element is displayed

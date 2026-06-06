@@ -1,6 +1,7 @@
 package com.orangehrm.pages;
 
 import com.orangehrm.actiondriver.ActionDriver;
+import com.orangehrm.base.BaseClass;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 
@@ -10,8 +11,12 @@ public class HomePage {
 
     // constructor
     // initialize the ActionDriver by passing WebDriver instance
-    public HomePage(WebDriver driver) {
+    /* public HomePage(WebDriver driver) {
         this.actionDriver = new ActionDriver(driver);
+    } */
+
+    public HomePage(WebDriver driver) {
+        this.actionDriver = BaseClass.getActionDriver();
     }
 
     // Define locators for the homepage class
@@ -25,7 +30,7 @@ public class HomePage {
         return actionDriver.isDisplayed(adminTab);
     }
 
-    public boolean verifyOrangeHtmLgo() {
+    public boolean verifyOrangeHtmlLogo() {
         return actionDriver.isDisplayed(orangeHRMLogo);
     }
 
