@@ -1,6 +1,8 @@
 package com.orangehrm.base;
 
 import com.orangehrm.actiondriver.ActionDriver;
+import com.orangehrm.utilities.LoggerManager;
+import org.apache.logging.log4j.Logger;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.edge.EdgeDriver;
@@ -24,6 +26,7 @@ public class BaseClass {
     protected static Properties prop;
     protected static WebDriver driver;
     private static ActionDriver actionDriver;
+    public static final Logger logger = LoggerManager.getLogger(BaseClass.class);
 
     @BeforeSuite
     public void loadConfig() throws IOException {
@@ -33,6 +36,7 @@ public class BaseClass {
         /// read the file
         FileInputStream fis = new FileInputStream("C:\\Users\\lunge\\eclipse-workspace\\IntellJ IDEA Projects\\OrangeHRMAutomation\\src\\main\\resources\\config.properties");
         prop.load(fis);
+        logger.info("Loading properties file");
     }
 
     // method
@@ -41,12 +45,19 @@ public class BaseClass {
         launchBrowser();
         configureBrowser();
         staticWait(2);
-        System.out.println("Setting up WebDriver for: "+this.getClass().getSimpleName());
+        logger.info("WebDriver Browser initialized and maximized.");
+        logger.trace("This is a Trace message");
+        logger.error("This is a Error message");
+        logger.debug("This is a Debug message");
+        logger.fatal("This is a Fatal message");
+        logger.warn("This is a Warn message");
+       // System.out.println("Setting up WebDriver for: "+this.getClass().getSimpleName());
 
         // Initialize the action driver
         if(actionDriver == null){
             actionDriver = new ActionDriver(driver);
-            System.out.println("ActionDriver Instance is created "+this.getClass().getSimpleName());
+            logger.info("ActionDriver Instance is created.");
+            //System.out.println("ActionDriver Instance is created "+this.getClass().getSimpleName());
         }
 
     }
@@ -58,12 +69,15 @@ public class BaseClass {
 
         if (browser.equalsIgnoreCase("chrome")) {
             driver = new ChromeDriver();
+            logger.info("ChromeDriver Instance is created.");
         }
         else if (browser.equalsIgnoreCase("firefox")) {
             driver = new FirefoxDriver();
+            logger.info("FirefoxDriver Instance is created.");
         }
         else if (browser.equalsIgnoreCase("edge")) {
             driver = new EdgeDriver();
+            logger.info("EdgeDriver Instance is created.");
         }
         else {
             throw new IllegalArgumentException("Invalid browser"+browser);
@@ -103,7 +117,7 @@ public class BaseClass {
        }
        driver = null;
        actionDriver = null;
-       System.out.println("WebDriver instance is closed");
+       logger.info("WebDriver instance is closed");
     }
 
     // driver and getter method so we can use this method when ever we want
