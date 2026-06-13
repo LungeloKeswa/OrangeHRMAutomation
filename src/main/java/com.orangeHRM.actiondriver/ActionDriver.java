@@ -1,6 +1,7 @@
 package com.orangehrm.actiondriver;
 
 import com.orangehrm.base.BaseClass;
+import com.orangehrm.utilities.ExtentManager;
 import org.apache.logging.log4j.Logger;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
@@ -34,8 +35,10 @@ public class ActionDriver {
         try {
             waitForElementToBeClickable(by);
             driver.findElement(by).click();
+            ExtentManager.logStep("Clicked an element: " + elementDescription);
             logger.info("Element is clicked.-->"+elementDescription);
         } catch (Exception e) {
+            ExtentManager.logFailure(BaseClass.getDriver(), "Unable to click Element", elementDescription+"Unable to click Element");
             logger.error("Unable to click the element: "+e.getMessage());
         }
     }
@@ -74,9 +77,11 @@ public class ActionDriver {
             String actualText = driver.findElement(by).getText();
             if(expectedText.equals(actualText)) {
                 logger.info("The text is equal to the expected: "+actualText+ "equals" +expectedText);
+                ExtentManager.logStepWithScreenshot(BaseClass.getDriver(), "Compare Text", "Text Verified Successfully" +actualText + "equals" +expectedText);
                 return true;
             } else {
                 logger.error("The text are not Matching: "+actualText+ "not equals" +expectedText);
+                ExtentManager.logFailure(BaseClass.getDriver(), "Compare Text", "Text Comparison Failed" +actualText + "not equals" +expectedText);
                 return false;
             }
         } catch  (Exception e) {
@@ -110,9 +115,13 @@ public class ActionDriver {
             waitForElementToBeVisible(by);
             boolean displayed = driver.findElement(by).isDisplayed();
             logger.info("The element is displayed: " +getElementDescription(by));
+            ExtentManager.logStep("Element is displayed: " +getElementDescription(by));
+            ExtentManager.logStepWithScreenshot(BaseClass.getDriver(), "Element is dsiplayed", "Element is dsiplayed"+getElementDescription(by));
+           // ExtentManager.logStepWithScreenshot(BaseClass.getDriver(), "Element is displayed: " +getElementDescription(by));
             return driver.findElement(by).isDisplayed();
         } catch (Exception e) {
             logger.error("Unable to display the element: "+e.getMessage());
+            ExtentManager.logFailure(BaseClass.getDriver(), "Element is not displayed: ","Element is not displayed"+getElementDescription(by));
             return false;
         }
     }
@@ -202,7 +211,7 @@ public class ActionDriver {
 
     // Utility method to check a string is not NULL or empty
     private boolean isNotEmpty(String value) {
-       return value != null && !value.isEmpty();
+        return value != null && !value.isEmpty();
     }
 
     // Utility Method to truncate long String

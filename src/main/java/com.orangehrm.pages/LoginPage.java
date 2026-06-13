@@ -16,7 +16,7 @@ public class LoginPage {
     private By errorMessage = By.xpath("//p[@class='oxd-text oxd-text--p oxd-alert-content-text']");
 
     // constructor
-    // intialize the ActionDriver by passing WebDriver instance
+    // initialize the ActionDriver by passing WebDriver instance
     /*public LoginPage(WebDriver driver) {
         this.actionDriver = new ActionDriver(driver);
     }*/
@@ -25,7 +25,7 @@ public class LoginPage {
         this.actionDriver = BaseClass.getActionDriver();
     }
 
-    // Mehod to perfomr login
+    // Method to perform login
     public void login(String userName, String password) {
         actionDriver.enterText(usernameField, userName);
         actionDriver.enterText(passwordField, password);

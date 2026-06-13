@@ -1,16 +1,22 @@
 package com.orangeHRM.test;
 
 import com.orangehrm.base.BaseClass;
+import com.orangehrm.utilities.ExtentManager;
+import org.testng.SkipException;
 import org.testng.annotations.Test;
 
 public class DummyTest extends BaseClass {
 
     @Test
     public void dummyTest() {
-
-        String title = driver.getTitle();
+        ExtentManager.startTest("Dummy Test 1");
+        String title = getDriver().getTitle();
+        ExtentManager.startTest("Verify the Title");
         assert title.equals("OrangeHRM"):"Test Failed - Title does not match";
+
         System.out.println("Test Passed Title is : " +title);
+        ExtentManager.logSkip("This case is skipped");
+        throw new SkipException("Skipped the test as part of testing");
     }
 
 }
