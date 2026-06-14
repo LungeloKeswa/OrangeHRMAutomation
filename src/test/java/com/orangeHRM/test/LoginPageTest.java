@@ -22,7 +22,7 @@ public class LoginPageTest  extends BaseClass {
 
     @Test
     public void verifyValidLoginTest() {
-        ExtentManager.startTest("Valid login test");
+        // ExtentManager.startTest("Valid login test"); --This has been implemented in TestListener
         System.out.println("Running test Method 1 on thread: "+Thread.currentThread().getName());
         ExtentManager.logStep("Navigating to Login Page entering username and password");
         loginPage.login("admin", "admin123");
@@ -36,7 +36,7 @@ public class LoginPageTest  extends BaseClass {
 
     @Test
     public void invalidLoginTest() {
-        ExtentManager.startTest("Invalid login test");
+        ///ExtentManager.startTest("Invalid login test"); --This has been implemented in TestListener
         System.out.println("Running test Method 1 on thread: "+Thread.currentThread().getName());
         ExtentManager.logStep("Navigating to Login Page entering username and password");
         loginPage.login("admin", "admin");

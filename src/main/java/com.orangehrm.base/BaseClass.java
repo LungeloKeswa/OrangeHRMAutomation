@@ -44,7 +44,7 @@ public class BaseClass {
         logger.info("Loading properties file");
 
         // Start the Extent Report
-        ExtentManager.getReporter();
+        // ExtentManager.getReporter(); --This has been implemented in TestListerner
     }
 
     // method
@@ -137,7 +137,7 @@ public class BaseClass {
         driver.remove();
         actionDriver.remove();
         logger.info("WebDriver instance is closed");
-        ExtentManager.endTest();
+       // ExtentManager.endTest(); -- This has been implemented in TestListener
     }
 
     // driver and getter method so we can use this method when ever we want
