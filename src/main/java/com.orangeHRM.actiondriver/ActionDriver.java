@@ -33,13 +33,13 @@ public class ActionDriver {
         String elementDescription = getElementDescription(by);
 
         try {
-            applyBorders(by, "green");
+            applyBorder(by, "green");
             waitForElementToBeClickable(by);
             driver.findElement(by).click();
             ExtentManager.logStep("Clicked an element: " + elementDescription);
             logger.info("Element is clicked.-->"+elementDescription);
         } catch (Exception e) {
-            applyBorders(by, "red");
+            applyBorder(by, "red");
             System.out.println("Unable to click the element: " +e.getMessage());
             ExtentManager.logFailure(BaseClass.getDriver(), "Unable to click Element", elementDescription+"Unable to click Element");
             logger.error("Unable to click the element: "+e.getMessage());
@@ -51,7 +51,7 @@ public class ActionDriver {
     public void enterText(By by, String value) {
         try {
             waitForElementToBeVisible(by);
-            applyBorders(by, "green");
+            applyBorder(by, "green");
             //driver.findElement(by).clear();
             //driver.findElement(by).sendKeys(value);
             WebElement element = driver.findElement(by);
@@ -59,7 +59,7 @@ public class ActionDriver {
             element.sendKeys(value);
             logger.info("Enter text on: " +getElementDescription(by)+ " -->" +value);
         } catch (Exception e) {
-            applyBorders(by, "red");
+            applyBorder(by, "red");
             logger.error("Unable to enter the value" +e.getMessage());
         }
     }
@@ -68,10 +68,10 @@ public class ActionDriver {
     public String getText(By by) {
         try {
             waitForElementToBeVisible(by);
-            applyBorders(by, "green");
+            applyBorder(by, "green");
             return driver.findElement(by).getText();
         } catch (Exception e) {
-            applyBorders(by, "red");
+            applyBorder(by, "red");
             logger.error("Unable to get the text: "+e.getMessage());
             return "";
         }
@@ -83,18 +83,18 @@ public class ActionDriver {
             waitForElementToBeVisible(by);
             String actualText = driver.findElement(by).getText();
             if(expectedText.equals(actualText)) {
-                applyBorders(by, "green");
+                applyBorder(by, "green");
                 logger.info("The text is equal to the expected: "+actualText+ "equals" +expectedText);
                 ExtentManager.logStepWithScreenshot(BaseClass.getDriver(), "Compare Text", "Text Verified Successfully" +actualText + "equals" +expectedText);
                 return true;
             } else {
-                applyBorders(by, "red");
+                applyBorder(by, "red");
                 logger.error("The text are not Matching: "+actualText+ "not equals" +expectedText);
                 ExtentManager.logFailure(BaseClass.getDriver(), "Text Comparison Failed!", "Text Comparison Failed" +actualText + "not equals" +expectedText);
                 return false;
             }
         } catch  (Exception e) {
-            applyBorders(by, "red");
+            applyBorder(by, "red");
             logger.error("Unable to compare the text: "+e.getMessage());
         }
         return false;
@@ -123,7 +123,7 @@ public class ActionDriver {
     public boolean isDisplayed(By by) {
         try {
             waitForElementToBeVisible(by);
-            applyBorders(by, "green");
+            applyBorder(by, "green");
             boolean displayed = driver.findElement(by).isDisplayed();
             logger.info("The element is displayed: " +getElementDescription(by));
             ExtentManager.logStep("Element is displayed: " +getElementDescription(by));
@@ -131,7 +131,7 @@ public class ActionDriver {
            // ExtentManager.logStepWithScreenshot(BaseClass.getDriver(), "Element is displayed: " +getElementDescription(by));
             return driver.findElement(by).isDisplayed();
         } catch (Exception e) {
-            applyBorders(by, "red");
+            applyBorder(by, "red");
             logger.error("Unable to display the element: "+e.getMessage());
             ExtentManager.logFailure(BaseClass.getDriver(), "Element is not displayed: ","Element is not displayed"+getElementDescription(by));
             return false;
@@ -152,12 +152,12 @@ public class ActionDriver {
     // Scroll to an Element
     public void scrollToElement(By by) {
         try {
-            applyBorders(by, "green");
+            applyBorder(by, "green");
             JavascriptExecutor js = (JavascriptExecutor) driver;
             WebElement element = driver.findElement(by);
             js.executeScript("arguments[0].scrollIntoView(true);", element);
         } catch (Exception e) {
-            applyBorders(by, "red");
+            applyBorder(by, "red");
             logger.error("Unable to scroll to the element: "+e.getMessage());
         }
     }
@@ -237,19 +237,34 @@ public class ActionDriver {
     }
 
     /// Utility Method to border and element
-    public void applyBorders(By by, String color) {
+    public void applyBorder(By by, String color) {
+        try {
+            WebElement element = driver.findElement(by);
+
+            JavascriptExecutor js = (JavascriptExecutor) driver;
+            js.executeScript(
+                    "arguments[0].style.border='3px solid " + color + "';",
+                    element
+            );
+
+            logger.info("Applied border color: " + color + " to " + getElementDescription(by));
+
+        } catch (Exception e) {
+            logger.warn("Failed to apply border to element: " + getElementDescription(by), e);
+        }
+    }
+   /* public void applyBorder(By by, String color) {
         try {
             // Locate the element
             WebElement element = driver.findElement(by);
             // Apply border
-            String script = "arguments[].style.border='3px solid " + color + "'";
+            String script = "arguments[0].style.border='3px solid " +color+ "'";
             // Javascript excutor
             JavascriptExecutor js = (JavascriptExecutor) driver;
             js.executeScript(script, element);
             logger.info("Applied the borders of element with border color: " +color+ "to element" +getElementDescription(by));
         } catch (Exception e) {
             logger.warn("Failed to apply the border to an element" +getElementDescription(by), e.getMessage());
-            //throw new RuntimeException(e);
         }
-    }
+    } */
 }
