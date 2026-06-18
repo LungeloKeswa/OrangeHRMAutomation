@@ -21,7 +21,7 @@ public class ExcelReaderUtility {
 
         // object of work book
         try(FileInputStream fis = new FileInputStream(filePath);
-            Workbook workbook= new XSSFWorkbook()){
+            Workbook workbook= new XSSFWorkbook(fis)){
             Sheet sheet = workbook.getSheet(sheetName);
             if(sheet == null){
                throw new IllegalArgumentException("Sheet "+sheetName+ "does not exist");
@@ -44,10 +44,9 @@ public class ExcelReaderUtility {
 
             }
 
-        } catch (Exception e) {
-            throw new RuntimeException(e);
+        } catch (IOException e) {
+            e.printStackTrace();
         }
-
 
         return data;
 
