@@ -11,9 +11,11 @@ import org.openqa.selenium.firefox.FirefoxDriver;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.BeforeSuite;
+import org.testng.asserts.SoftAssert;
 
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.lang.reflect.Method;
 import java.time.Duration;
 import java.util.Properties;
 import java.util.concurrent.TimeUnit;
@@ -32,6 +34,12 @@ public class BaseClass {
     private static ThreadLocal<WebDriver> driver = new ThreadLocal<>();
     private static ThreadLocal<ActionDriver> actionDriver = new ThreadLocal<>();
     public static final Logger logger = LoggerManager.getLogger(BaseClass.class);
+    protected ThreadLocal<SoftAssert> softAssert = ThreadLocal.withInitial(SoftAssert::new);
+
+    // Getter method for soft assert
+    public SoftAssert getSoftAssert() {
+        return softAssert.get();
+    }
 
     @BeforeSuite
     public void loadConfig() throws IOException {
@@ -45,6 +53,11 @@ public class BaseClass {
 
         // Start the Extent Report
         // ExtentManager.getReporter(); --This has been implemented in TestListerner
+    }
+
+    @BeforeMethod
+    public void startExtentReport(Method method) {
+        ExtentManager.startTest(method.getName());
     }
 
     // method
@@ -122,6 +135,11 @@ public class BaseClass {
             System.out.println("Failed to navigate to the URL:"+e.getMessage());
         }
     }
+
+//    @AfterMethod
+//    public void flushReport() {
+//        ExtentManager.endTest();
+//    }
 
     @AfterMethod
     public synchronized void tearDown() {

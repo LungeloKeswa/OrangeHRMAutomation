@@ -86,12 +86,23 @@ public class ExtentManager {
         attachScreenshot(driver, screenshotName);
     }
 
+    // Log a step validation for API
+    public static void logStepValidationForAPI(String logMessage) {
+        getTest().pass(logMessage);
+    }
+
     // Log a Failure
     public static void logFailure(WebDriver driver, String logMessage, String screenshotName) {
         String colorMessage = String.format("<span style='color: red'>%s</span>", logMessage);
         getTest().fail(colorMessage);
         // Screenshot method
         attachScreenshot(driver, screenshotName);
+    }
+
+    // Log a Failure for API
+    public static void logFailureAPI(String logMessage) {
+        String colorMessage = String.format("<span style='color: red'>%s</span>", logMessage);
+        getTest().fail(colorMessage);
     }
 
     // Log a skip

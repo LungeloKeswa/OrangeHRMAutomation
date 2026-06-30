@@ -6,10 +6,12 @@
     </listeners>
     <test name="OrangeHRMTest">
         <classes>
-            <class name="com.orangeHRM.test.DummyTest"/>
-            <class name="com.orangeHRM.test.DummyTest2"/>
-            <class name="com.orangeHRM.test.LoginPageTest"/>
-            <class name="com.orangeHRM.test.HomePageTest"/>
+            <!--            <class name="com.orangeHRM.test.DummyTest"/>-->
+            <!--            <class name="com.orangeHRM.test.DummyTest2"/>-->
+            <!--            <class name="com.orangeHRM.test.LoginPageTest"/>-->
+            <!--            <class name="com.orangeHRM.test.HomePageTest"/> -->
+<!--            <class name="com.orangeHRM.test.DBVerificationText" />-->
+            <class name="com.orangeHRM.test.ApiTest" />
         </classes>
     </test>
 </suite>
